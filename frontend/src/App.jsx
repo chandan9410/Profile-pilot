@@ -1,16 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { socket } from "./socket";
+import Header from "./components/Header";
+import PriceCard from "./components/PriceCard";
+import AlertPanel from "./components/AlertPanel";
+import AlertToast from "./components/AlertToast";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [price, setPrice] = useState(null);
+  const [toast, setToast] = useState("");
+
+  useEffect(() => {
+    socket.on("price", setPrice);
+
+    socket.on("alert", (data) => {
+      setToast(`BTC ${data.direction} at $${data.price}`);
+      new Notification("BTC Price Alert 🚨", {
+        body: `BTC ${data.direction}`
+      });
+    });
+
+    return () => socket.off();
+  }, []);
 
   return (
-     
-     <h1>  hell is this working </h1>
-       
-  )
+    <div className="min-h-screen px-6 py-4">
+      <Header />
+      <div className="grid md:grid-cols-2 gap-6 mt-6">
+        <PriceCard price={price} />
+        <AlertPanel />
+      </div>
+      {toast && <AlertToast message={toast} />}
+    </div>
+  );
 }
-
-export default App
