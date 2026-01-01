@@ -6,7 +6,7 @@ import AlertPanel from "./components/AlertPanel";
 import AlertToast from "./components/AlertToast";
 
 export default function App() {
-  const [price, setPrice] = useState(null);
+  const [price, setPrice] = useState(0);
   const [toast, setToast] = useState("");
 
   useEffect(() => {
