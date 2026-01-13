@@ -44,7 +44,7 @@ export default function AlertPanel() {
   const setAlert = () => {
     socket.emit("setAlert",{
        baseprice : Number(base),
-       percent : 1.5
+       percent : 0.001
     });
       console.log(" alert succefully set");
        alert(" alert activated");
@@ -74,8 +74,6 @@ export default function AlertPanel() {
 >``
   🔔 Set Alert ±1.5%
 </button>
-
-
       <p className="text-xs text-slate-500 mt-2">
         Triggers instantly when crossed
       </p>
